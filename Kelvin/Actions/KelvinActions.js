@@ -1,14 +1,11 @@
-const KelvinToCelsiusAction = require('./KelvinToCelsiusAction');
-const UnknownScaleAction = require('../../Core/Actions/UnknownScaleAction');
+const KelvinActionsOrchestrator = require('./KelvinActionsOrchestrator');
+const ScaleActions = require('../../Core/Actions/ScaleActions');
 
 function KelvinActions({ degrees, targetScale }) {
-    switch(targetScale) {
-        case 'celsius':
-            new KelvinToCelsiusAction({ degrees });
-            break;
-        default:
-            new UnknownScaleAction({ scale: targetScale });
-    }
+    const actions = new ScaleActions({
+        orchestrator: new KelvinActionsOrchestrator()
+    });
+    return actions({ degrees, targetScale });
 }
 
 module.exports = KelvinActions;

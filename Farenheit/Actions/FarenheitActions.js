@@ -1,14 +1,11 @@
-const FarenheitToCelsiusAction = require('./FarenheitToCelsiusAction');
-const UnknownScaleAction = require('../../Core/Actions/UnknownScaleAction');
+const FarenheitActionsOrchestrator = require('./FarenheitActionsOrchestrator');
+const ScaleActions = require('../../Core/Actions/ScaleActions');
 
 function FarenheitActions({ degrees, targetScale }) {
-    switch(targetScale) {
-        case 'celsius':
-            new FarenheitToCelsiusAction({ degrees });
-            break;
-        default:
-            new UnknownScaleAction({ scale: targetScale });
-    }
+    const actions = new ScaleActions({
+        orchestrator: new FarenheitActionsOrchestrator()
+    });
+    return actions({ degrees, targetScale });
 }
 
 module.exports = FarenheitActions;

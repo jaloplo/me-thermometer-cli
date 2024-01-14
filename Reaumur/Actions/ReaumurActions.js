@@ -1,14 +1,11 @@
-const ReaumurToCelsiusAction = require('./ReaumurToCelsiusAction');
-const UnknownScaleAction = require('../../Core/Actions/UnknownScaleAction');
+const ReaumurActionsOrchestrator = require('./ReaumurActionsOrchestrator');
+const ScaleActions = require('../../Core/Actions/ScaleActions');
 
 function ReaumurActions({ degrees, targetScale }) {
-    switch(targetScale) {
-        case 'celsius':
-            new ReaumurToCelsiusAction({ degrees });
-            break;
-        default:
-            new UnknownScaleAction({ scale: targetScale });
-    }
+    const actions = new ScaleActions({
+        orchestrator: new ReaumurActionsOrchestrator()
+    });
+    return actions({ degrees, targetScale });
 }
 
 module.exports = ReaumurActions;
